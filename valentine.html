@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valentine 💝</title>
+    <style>
+      body {
+        background-color: #0d0d0d;
+        color: #00ff41;
+        font-family: 'Courier New', Courier, monospace;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        transition: background-color 1s ease;
+      }
+
+      #terminal {
+        width: 85%;
+        max-width: 600px;
+      }
+
+      .line {
+        margin-bottom: 10px;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 2px solid #00ff41;
+        width: 0;
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
+
+      .typing-anim {
+        animation: typing 1.5s steps(40, end) forwards,
+          blink 0.5s step-end infinite;
+      }
+
+      #password-input {
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid #00ff41;
+        color: #00ff41;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 1.2rem;
+        outline: none;
+        display: none;
+        width: 200px;
+        margin-top: 10px;
+      }
+
+      .valentine-mode {
+        background-color: #ffebee !important;
+        color: #d32f2f !important;
+      }
+
+      #question-screen,
+      #success-screen {
+        display: none;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .main-gif,
+      .success-video {
+        width: 250px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        line-height: 1.4;
+      }
+      h2 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+      }
+
+      .btn-group {
+        margin-top: 25px;
+        height: 50px;
+      }
+
+      button {
+        padding: 12px 25px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        margin: 0 10px;
+        font-weight: bold;
+      }
+
+      #yesBtn {
+        background-color: #4caf50;
+        color: white;
+      }
+      #noBtn {
+        background-color: #f44336;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="terminal">
+      <div id="lines-container"></div>
+      <input
+        type="text"
+        id="password-input"
+        placeholder="Enter password..."
+        autocomplete="off"
+      />
+    </div>
+
+    <div id="question-screen">
+      <img
+        src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXpueXpueXpueXpueXpueXpueXpueXpueXpueXpueXpueCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif"
+        class="main-gif"
+      />
+      <h1>
+        If I were to ask you to be my Valentine, <br />would your answer be the
+        same as the answer to this question? ❤️
+      </h1>
+      <div class="btn-group">
+        <button id="yesBtn" onclick="showSuccess()">YES</button>
+        <button id="noBtn">NO</button>
+      </div>
+    </div>
+
+    <div id="success-screen">
+      <h2>YAY! I knew you'd make the right choice! 😘</h2>
+      <h1 style="font-size: 2.2rem">Happy Valentines Chimmy 🥰😘❤️</h1>
+      <video class="success-video" autoplay loop muted playsinline>
+        <source
+          src="https://res.cloudinary.com/dxrdiyms4/video/upload/v1771028545/chimmy_ifw054.mp4"
+          type="video/mp4"
+        />
+        <source
+          src="https://res.cloudinary.com/dxrdiyms4/video/upload/v1771028545/chimmy_ifw054.mp4"
+          type="video/quicktime"
+        />
+      </video>
+    </div>
+
+    <script>
+      const container = document.getElementById('lines-container');
+      const input = document.getElementById('password-input');
+      const questionScreen = document.getElementById('question-screen');
+      const successScreen = document.getElementById('success-screen');
+      const noBtn = document.getElementById('noBtn');
+
+      const script = [
+        '> Initializing love_script.exe...',
+        "> Scanning database for 'The One 🥰'...",
+        '> [OK] 10/10 Personality found.',
+        '> [OK] Extremely beautiful human detected.',
+        '> CRITICAL INFO: Only one person found.',
+        '> Identity required to proceed...',
+      ];
+
+      let i = 0;
+      function addLine() {
+        if (i < script.length) {
+          const div = document.createElement('div');
+          div.className = 'line typing-anim';
+          div.innerText = script[i];
+          container.appendChild(div);
+          i++;
+          setTimeout(addLine, 1800);
+        } else {
+          input.style.display = 'block';
+          input.focus();
+        }
+      }
+
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          if (input.value.toLowerCase().trim() === 'chimmy') {
+            document.body.classList.add('valentine-mode');
+            document.getElementById('terminal').style.display = 'none';
+            questionScreen.style.display = 'block';
+          } else {
+            alert('Access Denied. Hint: Use your nickname!');
+            input.value = '';
+          }
+        }
+      });
+
+      let noHoverCount = 0;
+      noBtn.addEventListener('mouseover', () => {
+        noHoverCount++;
+        if (noHoverCount < 3) {
+          alert('haha, read the question carefully! 😉');
+        } else {
+          noBtn.style.display = 'none';
+        }
+      });
+
+      function showSuccess() {
+        questionScreen.style.display = 'none';
+        successScreen.style.display = 'block';
+      }
+
+      window.onload = addLine;
+    </script>
+  </body>
+</html>
